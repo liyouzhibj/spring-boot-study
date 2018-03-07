@@ -4,30 +4,28 @@ package com.liyouzhi.client.service.impl;
 import com.liyouzhi.client.service.HttpClient;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-public class HttpUrlConnection implements HttpClient<String, String, Map<String, Object>, String> {
+public class HttpUrlConnectionJson implements HttpClient<String, String, String, String> {
     @Override
-    public String get(String url, Map<String, Object> params, String charset) {
+    public String get(String url, String params, String charset) {
         return null;
     }
 
     @Override
-    public String post(String urlParam, Map<String, Object> params, String charset) {
+    public String post(String urlParam, String params, String charset) {
         StringBuffer resultBuffer = null;
 
         StringBuffer sbParams = new StringBuffer();
 
-        if(params != null && params.size() > 0){
-            for(Map.Entry<String, Object> entry : params.entrySet()){
-                sbParams.append(entry.getKey());
-                sbParams.append("=");
-                sbParams.append(entry.getValue());
-                sbParams.append("&");
-            }
+        if(params != null && params.length() > 0){
+            sbParams.append(params);
         }
         HttpURLConnection httpURLConnection = null;
         OutputStreamWriter outputStreamWriter = null;
@@ -40,7 +38,7 @@ public class HttpUrlConnection implements HttpClient<String, String, Map<String,
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setDoInput(true);
             httpURLConnection.setUseCaches(false);
-            httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             if (sbParams != null && sbParams.length() > 0) {
                 outputStreamWriter = new OutputStreamWriter(httpURLConnection.getOutputStream(), charset);
                 outputStreamWriter.write(sbParams.substring(0, sbParams.length() - 1));

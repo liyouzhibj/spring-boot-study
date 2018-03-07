@@ -19,7 +19,7 @@ public class IndexController {
             userId = requestMap.get("userId").toString();
         }
 
-        if (requestMap.get("userId") != null) {
+        if (requestMap.get("userName") != null) {
             userName = requestMap.get("userName").toString();
         }
 
